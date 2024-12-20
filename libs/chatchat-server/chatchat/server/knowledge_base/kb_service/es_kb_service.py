@@ -39,7 +39,7 @@ class ESKBService(KBService):
         self.embeddings_model = get_Embeddings(self.embed_model)
         try:
             connection_info = dict(
-                host=f"{self.scheme}://{self.IP}:{self.PORT}"
+                hosts=f"{self.scheme}://{self.IP}:{self.PORT}"
             )
             if self.user != "" and self.password != "":
                 connection_info.update(basic_auth=(self.user, self.password))
