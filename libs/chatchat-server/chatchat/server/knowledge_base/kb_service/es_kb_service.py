@@ -71,9 +71,13 @@ class ESKBService(KBService):
                     }
                 }
             }
-            self.es_client_python.indices.create(
-                index=self.index_name, mappings=mappings
-            )
+            # judgement index exists
+            if not self.es_client_python.indices.exists(index=self.index_name):
+                self.es_client_python.indices.create(
+                    index=self.index_name, mappings=mappings
+                )
+            else:
+                logger.warning(f"索引 {self.index_name} 已存在, 无需创建")
         except BadRequestError as e:
             logger.error("创建索引失败,重新")
             logger.error(e)
