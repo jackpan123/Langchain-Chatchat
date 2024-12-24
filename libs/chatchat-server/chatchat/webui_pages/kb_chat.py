@@ -154,7 +154,7 @@ def kb_chat(api: ApiRequest):
                 on_change=on_conv_change,
             )
             chat_box.use_chat_name(conversation_name)
-            conversation_id = chat_box.context["uid"]
+            # conversation_id = chat_box.context["uid"]
             if cols[0].button("新建", on_click=add_conv):
                 ...
             if cols[1].button("重命名"):
