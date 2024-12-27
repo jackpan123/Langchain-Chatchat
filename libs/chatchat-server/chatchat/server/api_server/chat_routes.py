@@ -63,6 +63,9 @@ async def chat_completions(
     # rich.print(body)
 
     # 当调用本接口且 body 中没有传入 "max_tokens" 参数时, 默认使用配置中定义的值
+    import json
+    json_string = json.dumps(body.dict(), indent=4)
+    logger.info(json_string)
     if body.max_tokens in [None, 0]:
         body.max_tokens = Settings.model_settings.MAX_TOKENS
 

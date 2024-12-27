@@ -16,13 +16,13 @@ if __name__ == "__main__":
     is_lite = "lite" in sys.argv  # TODO: remove lite mode
 
     st.set_page_config(
-        "Langchain-Chatchat WebUI",
+        "智能问答",
         get_img_base64("chatchat_icon_blue_square_v2.png"),
         initial_sidebar_state="expanded",
         menu_items={
             "Get Help": "https://github.com/chatchat-space/Langchain-Chatchat",
             "Report a bug": "https://github.com/chatchat-space/Langchain-Chatchat/issues",
-            "About": f"""欢迎使用 Langchain-Chatchat WebUI {__version__}！""",
+            "About": f"""欢迎使用  智能问答 {__version__}！""",
         },
         layout="centered",
     )
