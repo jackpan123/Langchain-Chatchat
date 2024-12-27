@@ -3,6 +3,7 @@
 *.log
 *.log.*
 *.bak
+/libs/chatchat-server/data/*
 /libs/chatchat-server/chatchat/data/*
 !/libs/chatchat-server/chatchat/data/knowledge_base/samples
 /libs/chatchat-server/chatchat/data/knowledge_base/samples/vector_store
