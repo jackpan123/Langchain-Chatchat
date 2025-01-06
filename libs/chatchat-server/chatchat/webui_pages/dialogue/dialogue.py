@@ -345,7 +345,7 @@ def dialogue_page(
             model = c.get("model", "").strip() or get_default_llm()
             chat_model_config[key][model] = llm_model_config[key]
     llm_model = ctx.get("llm_model")
-    if llm_model is not None:
+    if llm_model is not None and llm_model_config["llm_model"].get(llm_model) is not None:
         chat_model_config["llm_model"][llm_model] = llm_model_config["llm_model"].get(
             llm_model, {}
         )

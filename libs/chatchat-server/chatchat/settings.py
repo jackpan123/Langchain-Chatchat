@@ -315,7 +315,7 @@ class ApiModelSettings(BaseFileSettings):
     Agent_MODEL: str = "" # TODO: 似乎与 LLM_MODEL_CONFIG 重复了
     """AgentLM模型的名称 (可以不指定，指定之后就锁定进入Agent之后的Chain的模型，不指定就是 DEFAULT_LLM_MODEL)"""
 
-    HISTORY_LEN: int = 3
+    HISTORY_LEN: int = 50
     """默认历史对话轮数"""
 
     MAX_TOKENS: t.Optional[int] = None # TODO: 似乎与 LLM_MODEL_CONFIG 重复了
@@ -330,6 +330,7 @@ class ApiModelSettings(BaseFileSettings):
             "openai-api",
             "Qwen-2",
             "qwen2-instruct",
+            "qwen2.5-instruct",
             "gpt-3.5-turbo",
             "gpt-4o",
         ]
@@ -350,7 +351,7 @@ class ApiModelSettings(BaseFileSettings):
                 "temperature": 0.9,
                 "max_tokens": 4096,
                 "history_len": 10,
-                "prompt_name": "default",
+                "prompt_name": "with_history",
                 "callbacks": True,
             },
             "action_model": {
