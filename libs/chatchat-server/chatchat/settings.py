@@ -330,7 +330,7 @@ class ApiModelSettings(BaseFileSettings):
             "openai-api",
             "Qwen-2",
             "qwen2-instruct",
-            "qwen2.5-instruct",
+            "qwen2.5-instruct-A58iTRUe",
             "gpt-3.5-turbo",
             "gpt-4o",
         ]
