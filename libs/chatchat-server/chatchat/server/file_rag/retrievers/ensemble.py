@@ -30,19 +30,19 @@ class EnsembleRetrieverService(BaseRetrieverService):
         )
         # TODO: 换个不用torch的实现方式
         # from cutword.cutword import Cutter
-        import jieba
-
-        # cutter = Cutter()
-        docs = list(vectorstore.docstore._dict.values())
-        bm25_retriever = BM25Retriever.from_documents(
-            docs,
-            preprocess_func=jieba.lcut_for_search,
-        )
-        bm25_retriever.k = top_k
-        ensemble_retriever = EnsembleRetriever(
-            retrievers=[bm25_retriever, faiss_retriever], weights=[0.5, 0.5]
-        )
-        return EnsembleRetrieverService(retriever=ensemble_retriever, top_k=top_k)
+        # import jieba
+        #
+        # # cutter = Cutter()
+        # docs = list(vectorstore.docstore._dict.values())
+        # bm25_retriever = BM25Retriever.from_documents(
+        #     docs,
+        #     preprocess_func=jieba.lcut_for_search,
+        # )
+        # bm25_retriever.k = top_k
+        # ensemble_retriever = EnsembleRetriever(
+        #     retrievers=[bm25_retriever, faiss_retriever], weights=[0.5, 0.5]
+        # )
+        return EnsembleRetrieverService(retriever=faiss_retriever, top_k=top_k)
 
     def get_relevant_documents(self, query: str):
         return self.retriever.get_relevant_documents(query)[: self.top_k]

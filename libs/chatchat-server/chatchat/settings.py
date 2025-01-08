@@ -489,7 +489,7 @@ class ToolSettings(BaseFileSettings):
 
     search_internet: dict = {
         "use": False,
-        "search_engine_name": "duckduckgo",
+        "search_engine_name": "searx",
         "search_engine_config": {
             "bing": {
                 "bing_search_url": "https://api.bing.microsoft.com/v7.0/search",

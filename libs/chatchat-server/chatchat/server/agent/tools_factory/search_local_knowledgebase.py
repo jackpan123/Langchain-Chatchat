@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 
+from chatchat.server.agent.tools_factory.search_internet import search_engine
 from chatchat.settings import Settings
 from chatchat.server.agent.tools_factory.tools_registry import (
     BaseToolOutput,
@@ -10,6 +11,9 @@ from chatchat.server.knowledge_base.kb_api import list_kbs
 from chatchat.server.knowledge_base.kb_doc_api import search_docs
 from chatchat.server.pydantic_v1 import Field
 from chatchat.server.utils import get_tool_config
+
+from chatchat.utils import build_logger
+logger = build_logger()
 
 template = (
     "Use local knowledgebase from one or more of these:\n{KB_info}\n to get information，Only local data on "
@@ -42,4 +46,16 @@ def search_local_knowledgebase(
     """"""
     tool_config = get_tool_config("search_local_knowledgebase")
     ret = search_knowledgebase(query=query, database=database, config=tool_config)
+    logger.info(f"search_local_knowledgebase result: {ret}")
+    result = search_engine(query=query)
+    logger.info(f"search_internet result: {result}")
+    for doc in result["docs"]:
+        knowledge_doc = {
+            "page_content": doc.page_content,
+            "metadata": {
+                "source": doc.metadata["source"]
+            },
+            "type": "Document"
+        }
+        ret["docs"].append(knowledge_doc)
     return BaseToolOutput(ret, format=format_context)
