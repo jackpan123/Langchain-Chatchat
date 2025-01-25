@@ -15,33 +15,47 @@ from chatchat.server.utils import get_tool_config
 from .tools_registry import BaseToolOutput, regist_tool, format_context
 
 
-def searx_search(text ,config, top_k: int):
+def searx_search(text, config, top_k: int):
     search = SearxSearchWrapper(
         searx_host=config["host"],
         engines=config["engines"],
         categories=config["categories"],
     )
     search.params["language"] = config.get("language", "zh-CN")
-    return search.results(text, top_k)
+    results = search.results(text, top_k)
+    return results
 
-
-def bing_search(text, config, top_k:int):
-    search = BingSearchAPIWrapper(
-        bing_subscription_key=config["bing_key"],
-        bing_search_url=config["bing_search_url"],
+import requests
+def bing_search(text, config, top_k: int):
+    bing_subscription_key = config["bing_key"]
+    headers = {"Authorization": "Bearer " + bing_subscription_key}
+    params = {
+        "query": text,
+        "summary": True,
+        "count": top_k,
+    }
+    response = requests.post(
+        config["bing_search_url"],
+        headers=headers,
+        json=params,  # type: ignore
     )
-    return search.results(text, top_k)
+    response.raise_for_status()
+    search_results = response.json()
+    if "data" in search_results:
+        return search_results['data']["webPages"]["value"]
+
+    return search_results
 
 
-def duckduckgo_search(text, config, top_k:int):
+def duckduckgo_search(text, config, top_k: int):
     search = DuckDuckGoSearchAPIWrapper()
     return search.results(text, top_k)
 
 
 def metaphor_search(
-    text: str,
-    config: dict,
-    top_k:int
+        text: str,
+        config: dict,
+        top_k: int
 ) -> List[Dict]:
     from metaphor_python import Metaphor
 
@@ -106,7 +120,7 @@ def search_result2docs(search_results) -> List[Document]:
     return docs
 
 
-def search_engine(query: str, top_k:int=0, engine_name: str="", config: dict={}):
+def search_engine(query: str, top_k: int = 0, engine_name: str = "", config: dict = {}):
     config = config or get_tool_config("search_internet")
     if top_k <= 0:
         top_k = config.get("top_k", Settings.kb_settings.SEARCH_ENGINE_TOP_K)
