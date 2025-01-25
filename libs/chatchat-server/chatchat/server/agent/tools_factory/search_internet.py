@@ -33,6 +33,7 @@ def bing_search(text, config, top_k: int):
         "query": text,
         "summary": True,
         "count": top_k,
+        "freshness": "oneYear",
     }
     response = requests.post(
         config["bing_search_url"],
